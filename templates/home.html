@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>Home</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{% url 'menu' %}">Menu</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="#">Reserve</a></li>
+                    <li><a href="#">Orders</a></li>
+                {% endif %}
+            </ul>
+
+            <div class="auth-buttons">
+                {% if not user.is_authenticated %}
+                    <!-- Show LOG OUT if the user is logged in -->
+                    
+              
+                    <!-- Show LOG IN & SIGN UP if the user is NOT logged in -->
+                    <form action="{% url 'login' %}" method="get">
+                        <button type="submit">LOG IN</button>
+                    </form>
+                    <form action="{% url 'signup' %}" method="get">
+                        <button type="submit">SIGN UP</button>
+                    </form>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="separator"></div>
+        {% if user.is_authenticated %}
+        <!-- Round Image Button -->
+        <form id="logout-form" action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="round-button">
+              <img src="{% static 'images/account-icon.png' %}" alt="Logout">
+          </button>
+      </form>
+      {% include 'home_manager.html' %}
+      {% endif %}
+    </header>
+  
+</body>
+</html>

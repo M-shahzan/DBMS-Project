@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    {% include 'index.html' %}
+    {% for table in available %}
+    <div class="table-container">
+        <p>table number:{{table.table_num}}</p>
+        <p>capacity :{{table.capacity}}</p>
+        <p>status:{{table.status}}</p>
+        <p>id:{{table.table_id}}</p>
+
+        {% if table.status == "reserved" %}
+            <a href="#">change</a>
+        {% else %}
+            <a href='#' onclick="toggleForm('reserveFormContainer','{{ table.table_id }}')">Reserve</a>
+ 
+
+<!-- Reserve Form -->
+
+        {% endif %}
+    </div>
+    {% endfor %}
+    <div id="reserveFormContainer" class="hidden form-container">
+        <h3>Reserve a Table</h3>
+        <form method="post" action="{% url 'reserve' %}">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            
+            <input type="hidden" id="table_id_input" name="table_id" value="">
+
+
+            <label for="id_name">Name:</label>
+            {{ form.name }}
+            <br>
+        
+            <label for="id_phone">Phone:</label>
+            {{ form.phone }}
+            <br>
+        
+            <label for="id_date">Date & Time:</label>
+            {{ form.date }}
+            <br>
+        
+            <label for="id_people_count">Number of People:</label>
+            {{ form.people_count }}
+            <br>
+
+        
+            <button type="submit">Reserve</button>
+        </form>
+        
+        
+    </div>
+    <script>
+       function toggleForm(formId, tableId = null) {
+    var form = document.getElementById(formId);
+
+    if (form) {
+        form.classList.toggle("hidden"); // Toggle visibility
+
+        // If a tableId is provided, update the hidden input field dynamically
+        if (tableId) {
+            var tableInput = document.getElementById("table_id_input");
+            if (tableInput) {
+                tableInput.value = tableId;
+                console.log(`Set table_id to: ${tableId}`);
+            } else {
+                console.error("Hidden input for table_id not found!");
+            }
+        }
+
+        console.log(`Toggled visibility for: ${formId}`);
+    } else {
+        console.error(`Element with ID '${formId}' not found!`);
+    }
+}
+
+    </script>
+</body>
+</html>

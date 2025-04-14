@@ -1,0 +1,44 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<div class="button container">
+    <div class="Orders">
+        <a href="#" class="card">
+            <div class="card-content">
+                <img src="{% static 'images/sample.jpg' %}" alt="Product">
+                <h3>Orders</h3>
+                <p>...</p>
+            </div>
+        </a>     
+        <a href="{% url 'menu' %}" class="card">
+            <div class="card-content">
+                <img src="{% static 'images/sample.jpg' %}" alt="Product">
+                <h3>Menu</h3>
+                <p>no of items = {{details.menu_count}}</p>
+            </div>
+        </a> 
+        <a href="#" class="card">
+            <div class="card-content">
+                <img src="{% static 'images/sample.jpg' %}" alt="Product">
+                <h3>Reservations</h3>
+                <p>...</p>
+            </div>
+        </a> 
+        <a href="#" class="card">
+            <div class="card-content">
+                <img src="{% static 'images/sample.jpg' %}" alt="Product">
+                <h3>Tables</h3>
+                <p>count = {{ details.count }}</p>
+                <p>available = {{details.available}}</p>
+                <p>reserved = {{details.reserved}}</p>
+            </div>
+        </a> 
+        <a href="#" class="card">
+            <div class="card-content">
+                <img src="{% static 'images/sample.jpg' %}" alt="Product">
+                <h3>Feedback</h3>
+                <p>...</p>
+            </div>
+        </a>        
+        
+    </div>
+</div>

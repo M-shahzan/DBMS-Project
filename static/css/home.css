@@ -1,0 +1,185 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-image: url("../images/background.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+    color: #333; /* Default text color */
+  }
+  
+  /* Header Styling */
+  header {
+    background-color: #ffffff00; /* White background for header */
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+  
+  }
+  
+  /* Navigation Styling */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  /* Menu Links */
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  nav ul li {
+    display: inline;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #ffffff; /* Dark gray text */
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    color: red; /* Red hover effect */
+  }
+  
+  /* Authentication Buttons */
+  .auth-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .auth-buttons button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .auth-buttons button:hover {
+    background-color: darkred;
+  }
+  
+  /* 🔴 Red Line Separator Below Header */
+  .separator {
+    width: 98%; /* Creates gap on both ends */
+    height: 3px;
+    background-color: rgb(255, 255, 255);
+    margin: 15px auto 0; /* Centered */
+  }
+  
+  /* Page Content */
+  main {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Round Image Button */
+  .round-button {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .round-button img {
+    width: 40px; /* Adjust size */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff; /* Optional border */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .round-button:hover {
+    opacity: 0.8;
+  }
+  /* General Styles */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container for Buttons */
+  .button.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 36px;
+  }
+  
+  /* Card Grid */
+  .Orders {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 900px;
+  }
+  
+  /* Card Design */
+  .card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Card Content */
+  .card-content {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  /* Card Image */
+  .card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  /* Card Title */
+  .card h3 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  /* Card Text */
+  .card p {
+    font-size: 14px;
+    color: #666;
+  }
+  

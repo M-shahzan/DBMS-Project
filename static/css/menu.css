@@ -1,0 +1,166 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    position: relative;
+}
+
+/* Top Half with Background Image */
+.top-half-bg {
+    width: 100%;
+    height: 50vh;
+    background-image: url("../images/background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    top: 0;
+    left: 0;
+    color: white;
+    display: block; /* Ensures the included content stays normal */
+}
+
+/* This only affects the <h1> inside .centered-content */
+.heading {
+    font-size: 40px;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    position: relative;
+    top: 40px; /* Center vertically */
+    height: 100%; /* Fill the parent height */
+    text-align: center;
+}
+
+
+
+/* Bottom Half Content */
+.bottom-half-content {
+    width: 100%;
+    height: 50vh;
+    background-color: white; /* You can change this */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 90%;
+    margin: auto;
+}
+
+.menu-items {
+    width: 60%; /* Adjust the width of the menu list */
+}
+
+.menu-item {
+    padding: 10px 0;
+   
+}
+
+.dish-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    width: 100%;
+}
+
+.dish-name {
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+.price {
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 90%;
+    margin: 100px auto;
+}
+
+.drinks-container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 90%;
+    margin: auto;
+}
+
+.dots {
+    flex-grow: 1;
+    border-bottom: 3.5px dotted black;
+    height: 1px;
+    width: 400px; /* Increase width for more dots */
+    margin: 0 10px; /* Keeps space balanced */
+}
+
+
+.menu-image {
+    width: 35%; /* Adjust image container width */
+    text-align: right;
+}
+
+.menu-image img {
+    width: 100%; /* Ensures image fills the right side */
+    max-width: 400px; /* Adjust max size */
+    height: auto;
+    border-radius: 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+.form-container {
+    position: fixed; /* Keeps it in place even when scrolling */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the form */
+    padding: 20px;
+    width: 300px; /* Adjust width as needed */
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    border-radius: 10px;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+input {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.button-container {
+    width: 100%;
+    text-align: left;
+    position: relative; /* Allows it to stay above bottom half */
+    margin-top: -50px; /* Moves it slightly above the bottom-half content */
+    z-index: 10; /* Ensures it stays on top */
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #28a745; /* Green button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    position: relative; /* Allows fine positioning */
+    z-index: 100;
+}

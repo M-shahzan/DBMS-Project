@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <title>Menu</title>
+</head>
+
+<body>
+    <div class="top-half-bg">
+        {% include 'index.html' %}
+        <div class="heading">
+            <h1>MENU</h1>
+        </div>
+    </div>
+
+    
+
+        
+
+        <!-- Button Container -->
+<div class="button-container">
+    <button onclick="toggleForm('addFormContainer')">+</button>
+
+    <!-- Add Form Button -->
+    <div id="addFormContainer" class="hidden form-container">
+        <h3>Enter Details</h3>
+        <form method="post">
+            {% csrf_token %}
+            <label for="dish_name">Dish Name:</label>
+            <input type="text" id="dish_name" name="dish_name"><br><br>
+
+            <label for="dish_price">Price:</label>
+            <input type="number" id="dish_price" name="dish_price"><br><br>
+            
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type"><br><br>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <button onclick="toggleForm('deleteFormContainer')">-</button>
+    <!-- Delete Form Button -->
+    <div id="deleteFormContainer" class="hidden form-container">
+        <h3>Delete a Dish</h3>
+        <form method="post">
+            {% csrf_token %}
+            <label for="delete_dish_name">Dish Name:</label>
+            <input type="text" id="delete_dish_name" name="delete_dish_name"><br><br>
+            
+            <button type="submit" name="delete_item">Delete</button>
+        </form>
+    </div>
+</div>
+
+
+    <div class="bottom-half-content">
+        
+        <!-- Menu List -->
+        <div class="menu-container">
+            <!-- Main Dishes Section -->
+            <div class="main-container">
+                <div class="main-items">
+                    <h2>Main Dishes</h2>
+                    {% for item in menu_items.main_dishes %}
+                    <div class="menu-item">
+                        <div class="dish-details">
+                            <span class="dish-name">{{ item.dish_name }}</span>
+                            <span class="dots"></span>
+                            <span class="dish-price">₹{{ item.dish_price }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+        
+                <!-- Menu Image -->
+                <div class="menu-image">
+                    <img src="{% static 'images/empty-plate.jpg' %}" alt="Menu Image">
+                </div>
+            </div>
+        
+            <!-- Drinks Section -->
+            <div class="drinks-container">  <!-- Use the same container class for consistency -->
+                <div class="drinks-items">
+                    <h2>Drinks</h2>
+                    {% for item in menu_items.drinks %}
+                    <div class="menu-item">
+                        <div class="dish-details">
+                            <span class="dish-name">{{ item.dish_name }}</span>
+                            <span class="dots"></span>
+                            <span class="dish-price">₹{{ item.dish_price }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+        
+                <!-- Menu Image -->
+                <div class="menu-image">
+                    <img src="{% static 'images/empty-plate.jpg' %}" alt="Menu Image">
+                </div>
+            </div>
+
+            
+                <!-- dessert Section -->
+                <div class="main-container">
+                    <div class="main-items">
+                        <h2>Main Dishes</h2>
+                        {% for item in menu_items.main_dishes %}
+                        <div class="menu-item">
+                            <div class="dish-details">
+                                <span class="dish-name">{{ item.dish_name }}</span>
+                                <span class="dots"></span>
+                                <span class="dish-price">₹{{ item.dish_price }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+            
+                    <!-- Menu Image -->
+                    <div class="menu-image">
+                        <img src="{% static 'images/empty-plate.jpg' %}" alt="Menu Image">
+                    </div>
+                </div>
+        </div>
+        
+    </div>
+
+    <!-- Menu List -->
+    
+</div>
+
+    <script src="{% static 'javascript/form.js' %}"></script>
+</body>
+</html>
