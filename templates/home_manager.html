@@ -16,14 +16,14 @@
                 <p>no of items = {{details.menu_count}}</p>
             </div>
         </a> 
-        <a href="#" class="card">
+        <a href="{% url 'reserve' %}" class="card">
             <div class="card-content">
                 <img src="{% static 'images/sample.jpg' %}" alt="Product">
                 <h3>Reservations</h3>
                 <p>...</p>
             </div>
         </a> 
-        <a href="#" class="card">
+        <a href="{% url 'tables' %}" class="card">
             <div class="card-content">
                 <img src="{% static 'images/sample.jpg' %}" alt="Product">
                 <h3>Tables</h3>
