@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/feedbackList.css' %}">
+    <title>Feedback List</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Feedback List</h1>
+    </div>
+    
+    <div class="container">
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-value">{{ total_feedback }}</div>
+                <div class="stat-label">Total Feedbacks</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ average_rating|floatformat:1 }}</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+        </div>
+        
+        <div class="feedback-list">
+            {% for feedback in feedbacks %}
+                <div class="feedback-item">
+                    <div class="feedback-header">
+                        <div class="customer-name">{{ feedback.name }}</div>
+                        <div class="rating">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= feedback.rating %}★{% else %}☆{% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="feedback-comment">{{ feedback.comments }}</p>
+                    <p><strong>Email:</strong> {{ feedback.email }}</p>
+                    <p><strong>Visit Date:</strong> {{ feedback.visit_date }}</p>
+                    <p class="feedback-date">Submitted on {{ feedback.submission_date|date:"F j, Y" }}</p>
+                </div>
+            {% empty %}
+                <div class="no-feedback">No feedback available.</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

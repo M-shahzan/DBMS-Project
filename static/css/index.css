@@ -29,13 +29,13 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  color: #ffffff; /* White text */
+  color: #ff0000; /* White text */
   font-weight: bold;
   transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-  color: red; /* Red hover effect */
+  color: rgb(129, 0, 0); /* Red hover effect */
 }
 
 /* Logout Button */
@@ -67,6 +67,6 @@ nav ul li a:hover {
 .separator {
   width: 98%;
   height: 3px;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0);
   margin: 15px auto 0;
 }

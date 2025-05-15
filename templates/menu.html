@@ -5,133 +5,223 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+ 
     <title>Menu</title>
 </head>
 
 <body>
-    <div class="top-half-bg">
-        {% include 'index.html' %}
-        <div class="heading">
+    <div class="hero-section">
+        <div class="menu-heading">
             <h1>MENU</h1>
         </div>
+        
+        {% if request.user.is_staff or request.user.is_superuser %}
+        <div class="admin-controls">
+            <button class="control-button add-button" id="addButton" aria-label="Add new dish">+</button>
+            <button class="control-button delete-button" id="deleteButton" aria-label="Delete dish">−</button>
+        </div>
+        {% endif %}
     </div>
 
-    
-
-        
-
-        <!-- Button Container -->
-<div class="button-container">
-    <button onclick="toggleForm('addFormContainer')">+</button>
-
-    <!-- Add Form Button -->
-    <div id="addFormContainer" class="hidden form-container">
-        <h3>Enter Details</h3>
-        <form method="post">
-            {% csrf_token %}
-            <label for="dish_name">Dish Name:</label>
-            <input type="text" id="dish_name" name="dish_name"><br><br>
-
-            <label for="dish_price">Price:</label>
-            <input type="number" id="dish_price" name="dish_price"><br><br>
-            
-            <label for="type">Type:</label>
-            <input type="text" id="type" name="type"><br><br>
-            
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-
-    <button onclick="toggleForm('deleteFormContainer')">-</button>
-    <!-- Delete Form Button -->
-    <div id="deleteFormContainer" class="hidden form-container">
-        <h3>Delete a Dish</h3>
-        <form method="post">
-            {% csrf_token %}
-            <label for="delete_dish_name">Dish Name:</label>
-            <input type="text" id="delete_dish_name" name="delete_dish_name"><br><br>
-            
-            <button type="submit" name="delete_item">Delete</button>
-        </form>
-    </div>
-</div>
-
-
-    <div class="bottom-half-content">
-        
-        <!-- Menu List -->
-        <div class="menu-container">
-            <!-- Main Dishes Section -->
-            <div class="main-container">
-                <div class="main-items">
-                    <h2>Main Dishes</h2>
-                    {% for item in menu_items.main_dishes %}
-                    <div class="menu-item">
-                        <div class="dish-details">
-                            <span class="dish-name">{{ item.dish_name }}</span>
-                            <span class="dots"></span>
-                            <span class="dish-price">₹{{ item.dish_price }}</span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-        
-                <!-- Menu Image -->
-                <div class="menu-image">
-                    <img src="{% static 'images/empty-plate.jpg' %}" alt="Menu Image">
-                </div>
+    {% if request.user.is_staff or request.user.is_superuser %}
+    <!-- Add Form Modal -->
+    <div id="addFormModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Dish</h3>
+                <span class="close">&times;</span>
             </div>
-        
-            <!-- Drinks Section -->
-            <div class="drinks-container">  <!-- Use the same container class for consistency -->
-                <div class="drinks-items">
-                    <h2>Drinks</h2>
-                    {% for item in menu_items.drinks %}
-                    <div class="menu-item">
-                        <div class="dish-details">
-                            <span class="dish-name">{{ item.dish_name }}</span>
-                            <span class="dots"></span>
-                            <span class="dish-price">₹{{ item.dish_price }}</span>
-                        </div>
-                    </div>
-                    {% endfor %}
+            <form method="post" class="dish-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="dish_name">Dish Name:</label>
+                    <input type="text" id="dish_name" name="dish_name" required>
                 </div>
-        
-                <!-- Menu Image -->
-                <div class="menu-image">
-                    <img src="{% static 'images/empty-plate.jpg' %}" alt="Menu Image">
-                </div>
-            </div>
 
-            
-                <!-- dessert Section -->
-                <div class="main-container">
-                    <div class="main-items">
-                        <h2>Main Dishes</h2>
+                <div class="form-group">
+                    <label for="dish_price">Price (₹):</label>
+                    <input type="number" id="dish_price" name="dish_price" min="0" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="type">Category:</label>
+                    <select id="type" name="type" required>
+                        <option value="main_dishes">Main Dish</option>
+                        <option value="drinks">Drink</option>
+                        <option value="desserts">Dessert</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Add to Menu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Form Modal -->
+    <div id="deleteFormModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Remove Dish</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form method="post" class="dish-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="delete_dish_name">Select Dish:</label>
+                    <select id="delete_dish_name" name="delete_dish_name" required>
+                        <option value="">-- Select Item --</option>
                         {% for item in menu_items.main_dishes %}
-                        <div class="menu-item">
-                            <div class="dish-details">
-                                <span class="dish-name">{{ item.dish_name }}</span>
-                                <span class="dots"></span>
-                                <span class="dish-price">₹{{ item.dish_price }}</span>
-                            </div>
-                        </div>
+                            <option value="{{ item.dish_name }}">{{ item.dish_name }} (Main Dish)</option>
                         {% endfor %}
-                    </div>
-            
-                    <!-- Menu Image -->
-                    <div class="menu-image">
-                        <img src="{% static 'images/empty-plate.jpg' %}" alt="Menu Image">
-                    </div>
+                        {% for item in menu_items.drinks %}
+                            <option value="{{ item.dish_name }}">{{ item.dish_name }} (Drink)</option>
+                        {% endfor %}
+                        {% for item in menu_items.desserts %}
+                            <option value="{{ item.dish_name }}">{{ item.dish_name }} (Dessert)</option>
+                        {% endfor %}
+                    </select>
                 </div>
+                
+                <div class="form-actions">
+                    <button type="submit" name="delete_item" class="btn-delete">Remove Dish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="menu-content">
+        <div class="menu-stats">
+            <div class="stat-item">
+                <span class="stat-count">{{ menu_items.main_dishes|length }}</span>
+                <span class="stat-label">Main Dishes</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-count">{{ menu_items.drinks|length }}</span>
+                <span class="stat-label">Drinks</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-count">{{ menu_items.desserts|length }}</span>
+                <span class="stat-label">Desserts</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-count"></span>
+                <span class="stat-label">Total Items</span>
+            </div>
         </div>
         
+        <!-- Menu Categories -->
+        <div class="menu-category">
+            <div class="category-header">
+                <h2>Main Dishes</h2>
+            </div>
+            <div class="category-content">
+                <div class="dishes-list">
+                    {% for item in menu_items.main_dishes %}
+                    <div class="menu-item">
+                        <span class="dish-name">{{ item.dish_name }}</span>
+                        <span class="dots"></span>
+                        <span class="dish-price">₹{{ item.dish_price }}</span>
+                    </div>
+                    {% empty %}
+                    <div class="no-items">No main dishes available</div>
+                    {% endfor %}
+                </div>
+                <div class="category-image">
+                    <img src="{% static 'images/empty-plate.jpg' %}" alt="Main Dishes">
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-category">
+            <div class="category-header">
+                <h2>Drinks</h2>
+            </div>
+            <div class="category-content">
+                <div class="dishes-list">
+                    {% for item in menu_items.drinks %}
+                    <div class="menu-item">
+                        <span class="dish-name">{{ item.dish_name }}</span>
+                        <span class="dots"></span>
+                        <span class="dish-price">₹{{ item.dish_price }}</span>
+                    </div>
+                    {% empty %}
+                    <div class="no-items">No drinks available</div>
+                    {% endfor %}
+                </div>
+                <div class="category-image">
+                    <img src="{% static 'images/drinks.jpg' %}" alt="Drinks">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <div class="category-header">
+                <h2>Desserts</h2>
+            </div>
+            <div class="category-content">
+                <div class="dishes-list">
+                    {% for item in menu_items.desserts %}
+                    <div class="menu-item">
+                        <span class="dish-name">{{ item.dish_name }}</span>
+                        <span class="dots"></span>
+                        <span class="dish-price">₹{{ item.dish_price }}</span>
+                    </div>
+                    {% empty %}
+                    <div class="no-items">No desserts available</div>
+                    {% endfor %}
+                </div>
+                <div class="category-image">
+                    <img src="{% static 'images/desserts.jpg' %}" alt="Desserts">
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Menu List -->
-    
-</div>
-
-    <script src="{% static 'javascript/form.js' %}"></script>
+    <script>
+        // Modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get modal elements
+            const addModal = document.getElementById('addFormModal');
+            const deleteModal = document.getElementById('deleteFormModal');
+            const addBtn = document.getElementById('addButton');
+            const deleteBtn = document.getElementById('deleteButton');
+            const closeBtns = document.querySelectorAll('.close');
+            
+            // Open add modal
+            if (addBtn) {
+                addBtn.addEventListener('click', function() {
+                    addModal.style.display = 'block';
+                });
+            }
+            
+            // Open delete modal
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    deleteModal.style.display = 'block';
+                });
+            }
+            
+            // Close modals when clicking X
+            closeBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    addModal.style.display = 'none';
+                    deleteModal.style.display = 'none';
+                });
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === addModal) {
+                    addModal.style.display = 'none';
+                }
+                if (event.target === deleteModal) {
+                    deleteModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

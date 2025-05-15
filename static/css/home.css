@@ -1,185 +1,162 @@
-/* Reset default styles */
-* {
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url("../images/homebg.png");
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-image: url("../images/background.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 100vh;
-    color: #333; /* Default text color */
-  }
-  
-  /* Header Styling */
-  header {
-    background-color: #ffffff00; /* White background for header */
-    padding: 15px 0;
+    background-color: #f9f5f0;
+    color: #333;
+    line-height: 1.6;
+}
+.home-user-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Welcome section */
+.welcome-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../images/restaurant-bg.jpg") no-repeat center center;
+    background-size: cover;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    position: relative;
-  
-  }
-  
-  /* Navigation Styling */
-  nav {
+    color: white;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-content {
+    max-width: 800px;
+    padding: 20px;
+}
+
+.welcome-heading h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-description {
+    font-size: 18px;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #e6b17e;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    background-color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Header styles */
+.header {
+    background-color: #1a1a1a;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 0 20px;
-  }
-  
-  /* Menu Links */
-  nav ul {
-    list-style: none;
+}
+
+.logo {
     display: flex;
-    gap: 20px;
-  }
-  
-  nav ul li {
-    display: inline;
-  }
-  
-  nav ul li a {
-    text-decoration: none;
-    color: #ffffff; /* Dark gray text */
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  nav ul li a:hover {
-    color: red; /* Red hover effect */
-  }
-  
-  /* Authentication Buttons */
-  .auth-buttons {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .auth-buttons button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .auth-buttons button:hover {
-    background-color: darkred;
-  }
-  
-  /* 🔴 Red Line Separator Below Header */
-  .separator {
-    width: 98%; /* Creates gap on both ends */
-    height: 3px;
-    background-color: rgb(255, 255, 255);
-    margin: 15px auto 0; /* Centered */
-  }
-  
-  /* Page Content */
-  main {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  /* Round Image Button */
-  .round-button {
-    position: absolute;
-    top: 5px;
-    right: 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .round-button img {
-    width: 40px; /* Adjust size */
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff; /* Optional border */
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .round-button:hover {
-    opacity: 0.8;
-  }
-  /* General Styles */
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Container for Buttons */
-  .button.container {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 36px;
-  }
-  
-  /* Card Grid */
-  .Orders {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    max-width: 900px;
-  }
-  
-  /* Card Design */
-  .card {
+}
+
+.logo-text {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin: 0 15px;
+}
+
+.nav-link {
+    color: #fff;
     text-decoration: none;
-    color: inherit;
-    display: block;
-    width: 400px;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* Card Content */
-  .card-content {
-    padding: 15px;
-    text-align: center;
-  }
-  
-  /* Card Image */
-  .card img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-bottom: 2px solid #ddd;
-  }
-  
-  /* Card Title */
-  .card h3 {
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #e6b17e;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.user-actions a:hover {
+    color: #e6b17e;
+}
+
+.user-account {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.account-icon {
+    background-color: #e6b17e;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a1a;
     font-size: 18px;
-    margin: 10px 0;
-  }
-  
-  /* Card Text */
-  .card p {
-    font-size: 14px;
-    color: #666;
-  }
-  
+    transition: all 0.3s ease;
+}
+
+.account-icon:hover {
+    background-color: #fff;
+    transform: scale(1.05);
+}

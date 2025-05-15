@@ -4,84 +4,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/reserve.css' %}">
+    <title>Table Reservations</title>
 </head>
 <body>
-    {% include 'index.html' %}
-    {% for table in available %}
-    <div class="table-container">
-        <p>table number:{{table.table_num}}</p>
-        <p>capacity :{{table.capacity}}</p>
-        <p>status:{{table.status}}</p>
-        <p>id:{{table.table_id}}</p>
+    <div class="page-container">
+        <header>
+            <h1>Table Reservations</h1>
+        </header>
+        
+        <div class="tables-grid">
+            {% for table in available %}
+            <div class="table-card {% if table.status == 'reserved' %}reserved{% endif %}">
+                <div class="table-header">
+                    <h3>Table #{{ table.table_num }}</h3>
+                    <span class="status-badge {{ table.status }}">{{ table.status|title }}</span>
+                </div>
+                <div class="table-info">
+                    <p><span class="info-label">Capacity:</span> {{ table.capacity }} people</p>
+                    <p><span class="info-label">ID:</span> {{ table.table_id }}</p>
+                </div>
+                <div class="table-actions">
+                    {% if table.status == "reserved" %}
+                        <a href="#" class="btn btn-change">Change Reservation</a>
+                    {% else %}
+                        <a href="#" class="btn btn-reserve" onclick="toggleForm('reserveFormContainer','{{ table.table_id }}')">Reserve Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-        {% if table.status == "reserved" %}
-            <a href="#">change</a>
-        {% else %}
-            <a href='#' onclick="toggleForm('reserveFormContainer','{{ table.table_id }}')">Reserve</a>
- 
-
-<!-- Reserve Form -->
-
-        {% endif %}
+        <div id="reserveFormContainer" class="form-overlay hidden">
+            <div class="form-modal">
+                <div class="form-header">
+                    <h2>Reserve a Table</h2>
+                    <button type="button" class="close-btn" onclick="toggleForm('reserveFormContainer')">×</button>
+                </div>
+                <form method="post" action="{% url 'reserve' %}" class="reservation-form">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    
+                    <input type="hidden" id="table_id_input" name="table_id" value="">
+                    
+                    <div class="form-group">
+                        <label for="id_name">Name:</label>
+                        {{ form.name }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_phone">Phone:</label>
+                        {{ form.phone }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_date">Date & Time:</label>
+                        {{ form.date }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_people_count">Number of People:</label>
+                        {{ form.people_count }}
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-submit">Complete Reservation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    {% endfor %}
-    <div id="reserveFormContainer" class="hidden form-container">
-        <h3>Reserve a Table</h3>
-        <form method="post" action="{% url 'reserve' %}">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            
-            <input type="hidden" id="table_id_input" name="table_id" value="">
 
-
-            <label for="id_name">Name:</label>
-            {{ form.name }}
-            <br>
-        
-            <label for="id_phone">Phone:</label>
-            {{ form.phone }}
-            <br>
-        
-            <label for="id_date">Date & Time:</label>
-            {{ form.date }}
-            <br>
-        
-            <label for="id_people_count">Number of People:</label>
-            {{ form.people_count }}
-            <br>
-
-        
-            <button type="submit">Reserve</button>
-        </form>
-        
-        
-    </div>
     <script>
-       function toggleForm(formId, tableId = null) {
-    var form = document.getElementById(formId);
-
-    if (form) {
-        form.classList.toggle("hidden"); // Toggle visibility
-
-        // If a tableId is provided, update the hidden input field dynamically
-        if (tableId) {
-            var tableInput = document.getElementById("table_id_input");
-            if (tableInput) {
-                tableInput.value = tableId;
-                console.log(`Set table_id to: ${tableId}`);
-            } else {
-                console.error("Hidden input for table_id not found!");
+        function toggleForm(formId, tableId = null) {
+            var formOverlay = document.getElementById(formId);
+            
+            if (formOverlay) {
+                formOverlay.classList.toggle("hidden");
+                
+                // If a tableId is provided, update the hidden input field
+                if (tableId) {
+                    var tableInput = document.getElementById("table_id_input");
+                    if (tableInput) {
+                        tableInput.value = tableId;
+                        
+                        // Get table info for display
+                        var tableCard = document.querySelector(`.table-card:has([onclick*="${tableId}"])`);
+                        if (tableCard) {
+                            var tableNum = tableCard.querySelector('h3').innerText;
+                            document.querySelector('.form-header h2').innerText = `Reserve ${tableNum}`;
+                        }
+                    }
+                }
+                
+                // Prevent body scrolling when modal is open
+                if (!formOverlay.classList.contains("hidden")) {
+                    document.body.classList.add("no-scroll");
+                } else {
+                    document.body.classList.remove("no-scroll");
+                }
             }
         }
-
-        console.log(`Toggled visibility for: ${formId}`);
-    } else {
-        console.error(`Element with ID '${formId}' not found!`);
-    }
-}
-
+        
+        // Close modal if user clicks outside the form
+        document.addEventListener('click', function(event) {
+            var formOverlay = document.getElementById('reserveFormContainer');
+            var formModal = document.querySelector('.form-modal');
+            
+            if (!formOverlay.classList.contains('hidden') && 
+                !formModal.contains(event.target) && 
+                !event.target.classList.contains('btn-reserve')) {
+                toggleForm('reserveFormContainer');
+            }
+        });
     </script>
 </body>
 </html>

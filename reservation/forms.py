@@ -14,3 +14,4 @@ class tableForm(forms.ModelForm):
     class Meta:
         model = restables
         fields = ['table_num', 'capacity', 'status']
+

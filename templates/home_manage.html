@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/manage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-text">Messiah Restaurant</div>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="{% url 'menu' %}" class="nav-link">Menu</a></li>
+                    <li class="nav-item"><a href="{% url 'reserve' %}" class="nav-link">Reservations</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                {% if user.is_authenticated %}
+                    <a href="#" class="user-account">
+                        <div class="account-icon">
+                            <span>👤</span>
+                        </div>
+                    </a>
+                    <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="login-link">Login</a>
+                    <a href=# class="register-link">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Restaurant Management Dashboard</h1>
+            <div class="dashboard-date" id="current-date">May 15, 2025</div>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Orders Card -->
+            
+            
+            <!-- Menu Card -->
+            <a href="{% url 'menu' %}" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Menu</h3>
+                    <span class="card-icon">🍽️</span>
+                </div>
+                <div class="card-content">
+                    <div class="highlight">{{ details.menu_count }}</div>
+                    <div class="stat">
+                        <span class="stat-label">Categories</span>
+                        <span class="stat-value">{{ details.menu_categories|default:"0" }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Featured Items</span>
+                        <span class="stat-value">{{ details.featured_items|default:"0" }}</span>
+                    </div>
+                </div>
+                <div class="card-footer">Manage Menu</div>
+            </a>
+            
+            <!-- Reservations Card -->
+            <a href="{% url 'reserve' %}" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Reservations</h3>
+                    <span class="card-icon">📅</span>
+                </div>
+                <div class="card-content">
+                    <div class="highlight">{{ details.count}}</div>
+                    <div class="stat">
+                        <span class="stat-label">Reserved</span>
+                        <span class="stat-value">{{ details.reserved }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Tables available</span>
+                        <span class="stat-value">{{ details.available}}</span>
+                    </div>
+                </div>
+                <div class="card-footer">View Reservations</div>
+            </a>
+            
+            <!-- Tables Card -->
+            <a href="{% url 'tables' %}" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Tables</h3>
+                    <span class="card-icon">🪑</span>
+                </div>
+                <div class="card-content">
+                    <div class="stat">
+                        <span class="stat-label">Total Tables</span>
+                        <span class="stat-value">{{ details.count }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Available</span>
+                        <span class="stat-value">
+                            <span class="badge badge-success">{{ details.available }}</span>
+                        </span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Reserved</span>
+                        <span class="stat-value">
+                            <span class="badge badge-warning">{{ details.reserved }}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-footer">Manage Tables</div>
+            </a>
+            
+            <!-- Feedback Card -->
+            <a href="{% url 'feedbackList' %}" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Feedback</h3>
+                    <span class="card-icon">⭐</span>
+                </div>
+                <div class="card-content">
+                    <div class="highlight">{{ details.avg_rating|default:"0" }}/5</div>
+                    <div class="stat">
+                        <span class="stat-label">New Reviews</span>
+                        <span class="stat-value">{{ details.new_reviews|default:"0" }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Total Reviews</span>
+                        <span class="stat-value">{{ details.total_reviews|default:"0" }}</span>
+                    </div>
+                </div>
+                <div class="card-footer">View Feedback</div>
+            </a>
+            
+            <!-- Staff Card (New) -->
+            <a href="#" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Staff</h3>
+                    <span class="card-icon">👥</span>
+                </div>
+                <div class="card-content">
+                    <div class="highlight">{{ details.staff_count|default:"0" }}</div>
+                    <div class="stat">
+                        <span class="stat-label">On Duty</span>
+                        <span class="stat-value">{{ details.staff_on_duty|default:"0" }}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Schedule Updates</span>
+                        <span class="stat-value">{{ details.schedule_updates|default:"0" }}</span>
+                    </div>
+                </div>
+                <div class="card-footer">Manage Staff</div>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Update current date dynamically
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateElement = document.getElementById('current-date');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const currentDate = new Date().toLocaleDateString(undefined, options);
+            dateElement.textContent = currentDate;
+        });
+    </script>
+</body>
+</html>

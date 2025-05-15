@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/feedback.css' %}">
+    <title>Restaurant Feedback</title>
+</head>
+<body>
+    <h1>Restaurant Feedback</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div>
+            <input type="text" id="name" name="name" placeholder="Your Name" required />
+        </div>
+        <br />
+        <div>
+            <input type="email" id="email" name="email" placeholder="Your Email" required />
+        </div>
+        <br />
+        <div>
+            <select id="rating" name="rating" required>
+                <option value="" disabled selected>Select a rating</option>
+                <option value="5">Excellent (5)</option>
+                <option value="4">Very Good (4)</option>
+                <option value="3">Good (3)</option>
+                <option value="2">Fair (2)</option>
+                <option value="1">Poor (1)</option>
+            </select>
+        </div>
+        <br />
+        <div>
+            <input type="date" id="visit_date" name="visit_date" required />
+        </div>
+        <br />
+        <div>
+            <textarea id="comments" name="comments" rows="4" placeholder="Please share your experience with us..." required></textarea>
+        </div>
+        <br />
+        <button type="submit">Submit Feedback</button>
+        <button type="button" onclick="window.location.href='/'">Skip</button>
+    </form>
+</body>
+</html>

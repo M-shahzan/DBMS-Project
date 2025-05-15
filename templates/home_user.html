@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/home_user.css' %}">
+    <title>Messiah Restaurant - Home</title>
+</head>
+<body>
+    <main class="home-user-main">
+        {% if user.is_authenticated %}
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <div class="welcome-heading">
+                        <h1>Welcome to Messiah Restaurant</h1>
+                    </div>
+                    <div class="welcome-description">
+                        <p>Experience exceptional cuisine in an elegant atmosphere. Our culinary masters create dishes that will delight your senses.</p>
+                    </div>
+                    <a href="{% url 'reserve' %}" class="cta-button">Reserve a Table</a>
+                </div>
+            </section>
+            
+            <!-- Features Section -->
+            <section class="features-section">
+                <div class="feature-card">
+                    <div class="feature-icon">🍽️</div>
+                    <h3 class="feature-title">Fine Dining</h3>
+                    <p class="feature-description">Indulge in our exquisite menu featuring only the finest ingredients sourced locally.</p>
+                    <a href="{% url 'menu' %}" class="cta-button">View Menu</a>
+                </div>
+            </section>
+        {% endif %}
+    </main>
+</body>
+</html>

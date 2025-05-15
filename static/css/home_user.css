@@ -1,0 +1,84 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f5f0;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Main content styles */
+
+
+/* Features section */
+.features-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.feature-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    max-width: 400px;
+    width: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-icon {
+    font-size: 40px;
+    color: #e6b17e;
+    margin-bottom: 20px;
+}
+
+.feature-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+}
+
+.feature-description {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .welcome-heading h1 {
+        font-size: 36px;
+    }
+    
+    .welcome-section {
+        height: 400px;
+    }
+    
+    .feature-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-heading h1 {
+        font-size: 28px;
+    }
+    
+    .welcome-description {
+        font-size: 16px;
+    }
+    
+    .welcome-section {
+        height: 350px;
+    }
+    
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
