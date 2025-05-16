@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/reservationsView.css' %}">
+    <title>Manage Reservations</title>
+</head>
+<body>
+    <div class="reservations-container">
+        <div class="reservations-header">
+            <h1>Manage Reservations</h1>
+        </div>
+        <div class="reservations-overview">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-title">Total Reservations</div>
+                    <div class="stat-value">{{ total_count }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Today's Bookings</div>
+                    <div class="stat-value today">{{ today_count }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Available Tables</div>
+                    <div class="stat-value available">{{ available_count }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Reserved Tables</div>
+                    <div class="stat-value reserved">{{ reserved_count }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="reservations-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Table</th>
+                        <th>Date & Time</th>
+                        <th>Guests</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                    <tr data-reservation-id="{{ reservation.res_id }}">
+                        <td>{{ reservation.res_id }}</td>
+                        <td>{{ reservation.name }}</td>
+                        <td>Table {{ reservation.table.table_num }}</td>
+                        <td>{{ reservation.date|date:"M d, Y" }} at {{ reservation.date|time:"g:i A" }}</td>
+                        <td>{{ reservation.people_count }}</td>
+                        <td>{{ reservation.phone }}</td>
+                        <td>
+                            <span class="status-badge status-{{ reservation.table.status|lower }}">
+                                {{ reservation.table.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="actions-cell">
+                            <button class="btn-edit" data-id="{{ reservation.res_id }}">
+                                <span class="btn-icon">✏️</span>
+                            </button>
+                            <button class="btn-delete" data-id="{{ reservation.res_id }}" data-name="{{ reservation.name }}">
+                                <span class="btn-icon">🗑️</span>
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="no-data">No reservations found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Edit Reservation Modal -->
+    <div class="modal" id="editReservationModal">
+        <div class="modal-content">
+            <div class="form-header">
+                <h3>Edit Reservation</h3>
+                <button class="close-form-btn" aria-label="Close form">×</button>
+            </div>
+            <form method="post" id="editReservationForm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" name="reservation_id" id="edit_reservation_id">
+
+                <div class="form-group">
+                    <label for="edit_name">Customer Name:</label>
+                    <input type="text" id="edit_name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_phone">Phone Number:</label>
+                    <input type="text" id="edit_phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_date">Date:</label>
+                    <input type="date" id="edit_date" name="date_part" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_time">Time:</label>
+                    <input type="time" id="edit_time" name="time_part" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_people_count">Number of Guests:</label>
+                    <input type="number" id="edit_people_count" name="people_count" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_table">Table:</label>
+                    <select id="edit_table" name="table_id">
+                        {% for table in tables %}
+                        <option value="{{ table.table_id }}">Table {{ table.table_num }} (Capacity: {{ table.capacity }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_status">Status:</label>
+                    <select id="edit_status" name="status">
+                        <option value="reserved">Reserved</option>
+                        <option value="available">Cancelled</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                    <button type="button" class="btn-secondary cancel-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal-content">
+            <h3>Confirm Delete</h3>
+            <p>Are you sure you want to delete the reservation for <span id="deleteReservationName"></span>?</p>
+            <div class="modal-actions">
+                <form method="post" id="deleteReservationForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="reservation_id" id="delete_reservation_id">
+                    <button type="submit" class="btn-delete">Delete</button>
+                    <button type="button" class="btn-secondary cancel-modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editButtons = document.querySelectorAll('.btn-edit');
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+            const editModal = document.getElementById('editReservationModal');
+            const deleteModal = document.getElementById('deleteConfirmModal');
+            const closeButtons = document.querySelectorAll('.close-form-btn, .cancel-modal');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const reservationId = this.getAttribute('data-id');
+                    document.getElementById('edit_reservation_id').value = reservationId;
+                    editModal.classList.add('show');
+                });
+            });
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const reservationId = this.getAttribute('data-id');
+                    const customerName = this.getAttribute('data-name');
+                    document.getElementById('delete_reservation_id').value = reservationId;
+                    document.getElementById('deleteReservationName').textContent = customerName;
+                    deleteModal.classList.add('show');
+                });
+            });
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    editModal.classList.remove('show');
+                    deleteModal.classList.remove('show');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -22,15 +22,3 @@ class Reservation(models.Model):
         return f"Reservation {self.res_id} for {self.name} at Table {self.table.table_num}"
     
     
-class Feedback(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    rating = models.IntegerField()
-    visit_date = models.DateField()
-    comments = models.TextField()
-    submission_date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'feedback'  # Matches your MySQL table name
-

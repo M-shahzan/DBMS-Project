@@ -17,8 +17,8 @@
         
         {% if request.user.is_staff or request.user.is_superuser %}
         <div class="admin-controls">
-            <button class="control-button add-button" id="addButton" aria-label="Add new dish">+</button>
-            <button class="control-button delete-button" id="deleteButton" aria-label="Delete dish">−</button>
+            <button class="control-button add-button" id="addButton" aria-label="Add new dish">add</button>
+            <button class="control-button delete-button" id="deleteButton" aria-label="Delete dish">remove</button>
         </div>
         {% endif %}
     </div>
@@ -46,9 +46,9 @@
                 <div class="form-group">
                     <label for="type">Category:</label>
                     <select id="type" name="type" required>
-                        <option value="main_dishes">Main Dish</option>
-                        <option value="drinks">Drink</option>
-                        <option value="desserts">Dessert</option>
+                        <option value="main_dishes">Main</option>
+                        <option value="drink">Drink</option>
+                        <option value="dessert">Dessert</option>
                     </select>
                 </div>
                 
@@ -103,7 +103,7 @@
                 <span class="stat-label">Drinks</span>
             </div>
             <div class="stat-item">
-                <span class="stat-count">{{ menu_items.desserts|length }}</span>
+                <span class="stat-count">{{ menu_items.dessert|length }}</span>
                 <span class="stat-label">Desserts</span>
             </div>
             <div class="stat-item">
@@ -163,7 +163,7 @@
             </div>
             <div class="category-content">
                 <div class="dishes-list">
-                    {% for item in menu_items.desserts %}
+                    {% for item in menu_items.dessert %}
                     <div class="menu-item">
                         <span class="dish-name">{{ item.dish_name }}</span>
                         <span class="dots"></span>

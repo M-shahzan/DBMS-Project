@@ -4,7 +4,7 @@ from .forms import MenuItemForm, DeleteItemForm
 
 def menuView(request):
     main_dishs = Menu.objects.filter(type = 'main')
-    drinks = Menu.objects.filter(type = 'drinks')
+    drink = Menu.objects.filter(type = 'drink')
     dessert = Menu.objects.filter(type = 'dessert')
     item_count = Menu.objects.count()
     form = MenuItemForm()
@@ -25,6 +25,7 @@ def menuView(request):
         else:  # Handle Add Item Form
             form = MenuItemForm(request.POST)
             if form.is_valid():
+                print("Cleaned data:", form.cleaned_data) 
                 form.save()  
                 return redirect('menu')
             else:
@@ -32,7 +33,7 @@ def menuView(request):
     
     menu_items = {
         'main_dishes': main_dishs,
-        'drinks':drinks,
+        'drink':drink,
         'dessert':dessert,
     }
 

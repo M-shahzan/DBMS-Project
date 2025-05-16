@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/account.css' %}">
+    <title>Messiah Restaurant - My Account</title>
+</head>
+<body>
+    <div class="account-container">
+        <div class="account-header">
+            <h1>My Account</h1>
+            <p>Manage your profile and view your reservation history</p>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="account-content">
+            <!-- Account Info Section -->
+            <section class="account-section">
+                <div class="section-header">
+                    <h2>Account Information</h2>
+                </div>
+                <div class="profile-summary">
+                    <div class="profile-avatar">
+                        <div class="avatar-placeholder">
+                            {{ user.first_name|first }}{{ user.last_name|first }}
+                        </div>
+                    </div>
+                    <div class="profile-details">
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                        <p class="username">@{{ user.username }}</p>
+                        <p class="email">{{ user.email }}</p>
+                        <p class="member-since">Member since: {{ user.date_joined|date:"F j, Y" }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit Profile Section -->
+            <section class="account-section">
+                <div class="section-header">
+                    <h2>Edit Profile</h2>
+                </div>
+                <form method="post" class="form-container">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ user_form.username.id_for_label }}">Username</label>
+                        {{ user_form.username }}
+                        {% if user_form.username.errors %}
+                            <div class="form-error">{{ user_form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ user_form.first_name.id_for_label }}">First Name</label>
+                            {{ user_form.first_name }}
+                            {% if user_form.first_name.errors %}
+                                <div class="form-error">{{ user_form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ user_form.last_name.id_for_label }}">Last Name</label>
+                            {{ user_form.last_name }}
+                            {% if user_form.last_name.errors %}
+                                <div class="form-error">{{ user_form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ user_form.email.id_for_label }}">Email</label>
+                        {{ user_form.email }}
+                        {% if user_form.email.errors %}
+                            <div class="form-error">{{ user_form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" name="update_profile" class="btn primary">Update Profile</button>
+                </form>
+            </section>
+
+            <!-- Change Password Section -->
+            <section class="account-section">
+                <div class="section-header">
+                    <h2>Change Password</h2>
+                </div>
+                <form method="post" class="form-container">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ password_form.old_password.id_for_label }}">Current Password</label>
+                        {{ password_form.old_password }}
+                        {% if password_form.old_password.errors %}
+                            <div class="form-error">{{ password_form.old_password.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ password_form.new_password1.id_for_label }}">New Password</label>
+                        {{ password_form.new_password1 }}
+                        {% if password_form.new_password1.errors %}
+                            <div class="form-error">{{ password_form.new_password1.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ password_form.new_password2.id_for_label }}">Confirm New Password</label>
+                        {{ password_form.new_password2 }}
+                        {% if password_form.new_password2.errors %}
+                            <div class="form-error">{{ password_form.new_password2.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" name="change_password" class="btn secondary">Change Password</button>
+                </form>
+            </section>
+
+            <!-- Reservation History Section -->
+            <section class="account-section">
+                <div class="section-header">
+                    <h2>Reservation History</h2>
+                    <a href="{% url 'reserve' %}" class="btn primary small">New Reservation</a>
+                </div>
+                
+                <div class="reservation-list">
+                    {% if reservations %}
+                        {% for reservation in reservations %}
+                            <div class="reservation-card">
+                                <div class="reservation-header">
+                                    <div class="reservation-date">
+                                        <span class="day">{{ reservation.date|date:"d" }}</span>
+                                        <span class="month">{{ reservation.date|date:"M" }}</span>
+                                    </div>
+                                    <div class="reservation-status {% if reservation.date < today %}past{% else %}upcoming{% endif %}">
+                                        {% if reservation.date < today %}Past{% else %}Upcoming{% endif %}
+                                    </div>
+                                </div>
+                                {% for reservation in reservations %}
+                                <div class="reservation-details">
+                                    <p><strong>Reservation ID:</strong> {{ reservation.res_id }}</p>
+                                    <p><strong>Name:</strong> {{ reservation.name }}</p>
+                                    <p><strong>Phone:</strong> {{ reservation.phone }}</p>
+                                    <p><strong>Date & Time:</strong> {{ reservation.date }}</p>
+                                    <p><strong>Guests:</strong> {{ reservation.people_count }}</p>
+                                    <p><strong>Table:</strong> {{ reservation.table.table_num }}</p>
+                                </div>
+                                {% endfor %}
+                                {% if reservation.date >= today %}
+                                <div class="reservation-actions">
+                                    <a href="{% url 'edit_reservation' reservation.id %}" class="btn secondary small">Edit</a>
+                                    <a href="{% url 'cancel_reservation' reservation.id %}" class="btn danger small">Cancel</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-reservations">
+                            <p>You don't have any reservations yet.</p>
+                            <a href="{% url 'reserve' %}" class="btn primary">Make a Reservation</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+
+        <div class="account-footer">
+            <a href="{% url 'home' %}" class="btn text">Back to Home</a>
+            <a href="{% url 'logout' %}" class="btn danger">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import restables, Reservation,Feedback
+from .models import restables, Reservation
 from .forms import reserveForm,tableForm
-from django.db import connection
+from django.db import connection,models
+from django.utils import timezone
 
 @login_required
 def reserveView(request):
@@ -61,35 +62,26 @@ def tablesView(request):
     return render(request, 'tables.html', {'tables': tables, 'form': form})
 
 @login_required
-def feedbackView(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        rating = request.POST.get('rating')
-        visit_date = request.POST.get('visit_date')
-        comments = request.POST.get('comments')
-
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                INSERT INTO feedback (name, email, rating, visit_date, comments)
-                VALUES (%s, %s, %s, %s, %s)
-            """, [name, email, rating, visit_date, comments])
-
-        return redirect('home')
-
-    return render(request, 'feedback.html')
-
-
-def feedbackListView(request):
-    feedbacks = Feedback.objects.all().order_by('-submission_date')
-    total_feedback = feedbacks.count()
-    ratings = feedbacks.values_list('rating', flat=True)
-    average_rating = sum(ratings) / len(ratings) if ratings else 0
-
+def reservationsView(request):
+    # Get all reservations ordered by date (newest first)
+    reservations = Reservation.objects.all().order_by('-date')
+    
+    # Get counts for statistics
+    total_count = reservations.count()
+    today_count = Reservation.objects.filter(date__date=timezone.now().date()).count()
+    
+    # Get status counts using aggregation
+    tables_by_status = restables.objects.values('status').annotate(count=models.Count('status'))
+    status_counts = {item['status']: item['count'] for item in tables_by_status}
+    
+    # Prepare context
     context = {
-        'feedbacks': feedbacks,
-        'total_feedback': total_feedback,
-        'average_rating': average_rating,
+        'reservations': reservations,
+        'total_count': total_count,
+        'today_count': today_count,
+        'available_count': status_counts.get('available', 0),
+        'reserved_count': status_counts.get('reserved', 0),
+        'out_of_service_count': status_counts.get('outofservice', 0),
     }
-    return render(request, 'feedback_list.html', context)
-
+    
+    return render(request, 'reservationsView.html', context)

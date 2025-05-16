@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect,HttpResponse
-from django.contrib.auth import login,authenticate,logout
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import signupForm
+from django.contrib.auth import login,authenticate,logout,update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
+from django.contrib.auth.decorators import login_required
+from .forms import signupForm,UserUpdateForm
 from django.contrib import messages
+from reservation.models import Reservation
 
 
 # Create your views here.
@@ -42,3 +44,46 @@ def loginView(request):
 def logoutView(request):
     logout(request)
     return redirect("home")
+
+@login_required
+def accountView(request):
+    if request.method == 'POST':
+        # Check which form was submitted
+        if 'update_profile' in request.POST:
+            user_form = UserUpdateForm(request.POST, instance=request.user)
+            password_form = PasswordChangeForm(request.user)
+            
+            if user_form.is_valid():
+                user_form.save()
+                messages.success(request, "Your profile has been updated successfully.")
+                return redirect('account')
+            else:
+                messages.error(request, "Please correct the errors below.")
+                
+        elif 'change_password' in request.POST:
+            user_form = UserUpdateForm(instance=request.user)
+            password_form = PasswordChangeForm(request.user, request.POST)
+            
+            if password_form.is_valid():
+                user = password_form.save()
+                # Prevent user from being logged out after password change
+                update_session_auth_hash(request, user)
+                messages.success(request, "Your password has been changed successfully.")
+                return redirect('account')
+            else:
+                messages.error(request, "Please correct the errors below.")
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        password_form = PasswordChangeForm(request.user)
+    
+    # Get user's reservation history
+    # Assuming you have a Reservation model with a user foreign key
+    reservations = Reservation.objects.filter(user=request.user).order_by('-date')
+    
+    context = {
+        'user_form': user_form,
+        'password_form': password_form,
+        # 'reservations': reservations
+    }
+    
+    return render(request, 'account.html', context)

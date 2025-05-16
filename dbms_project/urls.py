@@ -23,4 +23,5 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path("menu/", include('menu.urls')),
     path("reservation/", include('reservation.urls')),
+    path("feedback/",include('feedback.urls'))
 ]

@@ -1,0 +1,343 @@
+:root {
+    --primary-color: #4a6741;
+    --secondary-color: #6c757d;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --gray-color: #6c757d;
+    --light-gray: #e9ecef;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    line-height: 1.6;
+    color: #333;
+}
+
+.account-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.account-header h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.account-header p {
+    color: var(--gray-color);
+}
+
+/* Messages */
+.messages-container {
+    margin-bottom: 30px;
+}
+
+.message {
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Account Sections */
+.account-section {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.section-header {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h2 {
+    color: var(--dark-color);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* Profile Summary */
+.profile-summary {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-avatar {
+    margin-right: 30px;
+}
+
+.avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.profile-details h3 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.username, .email, .member-since {
+    margin: 5px 0;
+    color: var(--gray-color);
+}
+
+/* Form Styles */
+.form-container {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+.form-error {
+    color: var(--danger-color);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 10px 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn.small {
+    font-size: 0.875rem;
+    padding: 5px 15px;
+}
+
+.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.primary:hover {
+    background-color: #3d5636;
+}
+
+.secondary {
+    background-color: white;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.secondary:hover {
+    background-color: #f8f9fa;
+}
+
+.danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.danger:hover {
+    background-color: #c82333;
+}
+
+.text {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.text:hover {
+    color: var(--dark-color);
+    text-decoration: underline;
+}
+
+/* Reservation List */
+.reservation-list {
+    padding: 20px;
+}
+
+.reservation-card {
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.reservation-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.day {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.month {
+    font-size: 1rem;
+    color: var(--gray-color);
+}
+
+.reservation-status {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.past {
+    background-color: var(--light-gray);
+    color: var(--gray-color);
+}
+
+.upcoming {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.reservation-details {
+    padding: 15px;
+}
+
+.reservation-details p {
+    margin: 5px 0;
+}
+
+.reservation-actions {
+    padding: 0 15px 15px 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.no-reservations {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.no-reservations p {
+    margin-bottom: 20px;
+    color: var(--gray-color);
+}
+
+/* Account Footer */
+.account-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-summary {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .account-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .account-footer .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
